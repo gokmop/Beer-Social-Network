@@ -1,0 +1,235 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org" xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
+<head>
+    <meta charset="UTF-8">
+    <title>Top Horizontal Menu</title>
+</head>
+<body>
+
+<div th:fragment="top-menu">
+    <nav class="navbar navbar-expand-lg navbar-dark fixed-top" id="mainNav">
+
+        <div class="container">
+            <a class="navbar-brand js-scroll-trigger" href="/"><img
+                    alt="BeerTag Logo"
+                    src="/static/assets/img/logos/beer-tag-logo.png" th:src="@{/assets/img/logos/beer-tag-logo.png}"/></a>
+            <button aria-controls="navbarResponsive" aria-expanded="false" aria-label="Toggle navigation"
+                    class="navbar-toggler navbar-toggler-right" data-target="#navbarResponsive" data-toggle="collapse"
+                    type="button">
+                Menu
+                <i class="fas fa-bars ml-1"></i>
+            </button>
+            <div class="collapse navbar-collapse" id="navbarResponsive">
+                <ul class="navbar-nav text-uppercase ml-auto">
+
+                    <li class="nav-item"><a class="nav-link" href="http://localhost:9090/">Home</a></li>
+
+                    <li>
+                        <li class="nav-item dropdown">
+                            <a class="nav-link dropdown-toggle" href="http://localhost:9090/beers" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                            Beers
+                            </a>
+                            <div class="dropdown-menu" aria-labelledby="navbarDropdown">
+                                <a class="dropdown-item" href="http://localhost:9090/beers">Search for Beers</a>
+                                <p sec:authorize="hasRole('ROLE_USER')">
+                                <a class="dropdown-item" href="http://localhost:9090/beers/create-beer">Create Beer</a>
+                                </p>
+                                    <!--  <div class="dropdown-divider"></div>
+                              <a class="dropdown-item" href="#">Something else here</a>
+                              -->
+                            </div>
+                        </li>
+                    </li>
+
+                    <li class="nav-item dropdown">
+                        <a class="nav-link dropdown-toggle" href="http://localhost:9090/brewery" id="navbarDropdown3" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                            Breweries
+                        </a>
+                        <div class="dropdown-menu" aria-labelledby="navbarDropdown3">
+                            <a class="dropdown-item" href="http://localhost:9090/brewery">Search for Breweries</a>
+                            <p sec:authorize="hasRole('ROLE_ADMIN')">
+                            <a class="dropdown-item" href="http://localhost:9090/brewery/create-brewery">Create Brewery</a>
+                            </p>
+                                <!--  <div class="dropdown-divider"></div>
+                              <a class="dropdown-item" href="#">Something else here</a>
+                              -->
+                        </div>
+                    </li>
+
+                    <li class="nav-item"><a class="nav-link" href="#">Styles</a></li>
+
+                    <!--Login -->
+                    <li class="nav-item">
+                        <p sec:authorize="!isAuthenticated()" >
+                        <a class="nav-link btn-success" href="http://localhost:9090/login">Login</a>
+                        </p>
+                    </li>
+
+                    <li>
+                    <li class="nav-item dropdown" sec:authorize="isAuthenticated()">
+
+                        <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown2" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                            User Menu
+                        </a>
+
+                        <div class="dropdown-menu" aria-labelledby="navbarDropdown2">
+                            <a class="dropdown-item" href="http://localhost:9090/users/profile">User Profile</a>
+                            <a class="dropdown-item" href="http://localhost:9090/list/wishlist">Wish List</a>
+                            <a class="dropdown-item" href="http://localhost:9090/list/dranklist">Drank List</a>
+
+                        </div>
+
+                    </li>
+                    </li>
+
+
+                    <!--User Details -->
+                    <li class="nav-item" id="logged-user-details">
+                        <p sec:authorize="isAuthenticated()" >
+                            User:<span sec:authentication="name"> </span>
+                            <br/>
+                            Role(s):<span sec:authentication="principal.authorities"></span>
+                        </p>
+                    </li>
+
+                    <!--Logout -->
+                    <li class="nav-item">
+                        <form th:action="@{/logout}" method="post">
+                            <p sec:authorize="isAuthenticated()">
+                                <input type="submit" value="Logout" class="btn-warning" style="alignment-baseline: center"/>
+                            </p>
+                        </form>
+                    </li>
+
+                </ul>
+            </div>
+        </div>
+    </nav>
+</div>
+
+
+
+
+<div th:fragment="footer">
+    <footer class="footer py-4">
+        <div class="container">
+            <div class="row align-items-center">
+                <div class="col-lg-4 text-lg-left">Copyright © TelerikAcademy Alpha 2020</div>
+                <div class="col-lg-4 my-3 my-lg-0">
+                    <a class="btn btn-dark btn-social mx-2" href="#!"><i class="fab fa-twitter"></i></a>
+                    <a class="btn btn-dark btn-social mx-2" href="#!"><i class="fab fa-facebook-f"></i></a>
+                    <a class="btn btn-dark btn-social mx-2" href="#!"><i class="fab fa-linkedin-in"></i></a>
+                </div>
+                <div class="col-lg-4 text-lg-right">
+                    <a class="mr-3" href="http://localhost:9090/swagger-ui.html">Swagger UI Documentation</a>
+
+                </div>
+            </div>
+        </div>
+    </footer>
+
+</div>
+
+
+<div th:fragment="contact-form">
+    <section class="page-section" id="contact">
+        <div class="container">
+            <div class="text-center">
+                <h2 class="section-heading text-uppercase">Contact Us</h2>
+                <h3 class="section-subheading text-muted">Lorem ipsum dolor sit amet consectetur.</h3>
+            </div>
+            <form id="contactForm" name="sentMessage" novalidate="novalidate">
+                <div class="row align-items-stretch mb-5">
+                    <div class="col-md-6">
+                        <div class="form-group">
+                            <input class="form-control" data-validation-required-message="Please enter your name." id="name" placeholder="Your Name *"
+                                   required="required" type="text"/>
+                            <p class="help-block text-danger"></p>
+                        </div>
+                        <div class="form-group">
+                            <input class="form-control" data-validation-required-message="Please enter your email address." id="email" placeholder="Your Email *"
+                                   required="required"
+                                   type="email"/>
+                            <p class="help-block text-danger"></p>
+                        </div>
+                        <div class="form-group mb-md-0">
+                            <input class="form-control" data-validation-required-message="Please enter your phone number." id="phone" placeholder="Your Phone *"
+                                   required="required"
+                                   type="tel"/>
+                            <p class="help-block text-danger"></p>
+                        </div>
+                    </div>
+                    <div class="col-md-6">
+                        <div class="form-group form-group-textarea mb-md-0">
+                            <textarea class="form-control" data-validation-required-message="Please enter a message." id="message" placeholder="Your Message *"
+                                      required="required"></textarea>
+                            <p class="help-block text-danger"></p>
+                        </div>
+                    </div>
+                </div>
+                <div class="text-center">
+                    <div id="success"></div>
+                    <button class="btn btn-warning btn-xl text-uppercase" id="sendMessageButton" type="submit">Send
+                        Message
+                    </button>
+                </div>
+            </form>
+        </div>
+    </section>
+</div>
+
+<div th:fragment="discover-new-beers">
+    <section class="page-section" id="services">
+        <div class="container">
+            <div class="text-center">
+                <h2 class="section-heading text-uppercase">Discover new Beers:</h2>
+                <h3 class="section-subheading text-muted">Search for beers based on your criteria</h3>
+            </div>
+            <div class="row text-center">
+                <div class="col-md-4">
+                        <span class="fa-stack fa-4x">
+                            <i class="fas fa-circle fa-stack-2x text-primary"></i>
+                            <i class="fas fa-beer fa-stack-1x fa-inverse"></i>
+
+                        </span>
+                    <h4 class="my-3">Beer Style</h4>
+                    <p class="text-muted">Lorem ipsum dolor sit amet, consectetur adipisicing elit. Minima maxime quam
+                        architecto quo inventore harum ex magni, dicta impedit.</p>
+                    <button class="btn btn-success" type="button">View All Beer Styles</button>
+                </div>
+                <div class="col-md-4">
+                        <span class="fa-stack fa-4x">
+                            <i class="fas fa-circle fa-stack-2x text-primary"></i>
+                            <i class="fas fa-industry fa-stack-1x fa-inverse"></i>
+                        </span>
+                    <h4 class="my-3">Brewery</h4>
+                    <p class="text-muted">Lorem ipsum dolor sit amet, consectetur adipisicing elit. Minima maxime quam
+                        architecto quo inventore harum ex magni, dicta impedit.</p>
+                    <button class="btn btn-success" type="button">View All Breweries</button>
+                </div>
+                <div class="col-md-4">
+                        <span class="fa-stack fa-4x">
+                            <i class="fas fa-circle fa-stack-2x text-primary"></i>
+                            <i class="fas fa-globe fa-stack-1x fa-inverse"></i>
+                        </span>
+                    <h4 class="my-3">Country of Origin</h4>
+                    <p class="text-muted">Lorem ipsum dolor sit amet, consectetur adipisicing elit. Minima maxime quam
+                        architecto quo inventore harum ex magni, dicta impedit.</p>
+                    <button class="btn btn-success" type="button">View All Countries</button>
+                </div>
+            </div>
+        </div>
+    </section>
+</div>
+
+<div th:fragment="intro-screen">
+    <header class="masthead">
+        <div class="container">
+            <div class="masthead-subheading">Welcome To BeerTag!</div>
+            <div class="masthead-heading text-uppercase">Cheers!</div>
+            <a class="btn btn-primary btn-xl text-uppercase js-scroll-trigger" href="#">See More</a>
+        </div>
+    </header>
+</div>
+</body>
+</html>

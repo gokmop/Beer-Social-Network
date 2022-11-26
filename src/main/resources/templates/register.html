@@ -1,0 +1,104 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>BeerTag Registration</title>
+    <link th:href="@{/css/styles.css}" href="../static/css/styles.css" rel="stylesheet">
+</head>
+<body>
+<!--Top-menu -->
+<div class="container-fluid">
+    <div th:insert="fragments/general.html :: top-menu"> </div>
+</div>
+<!--Heading text -->
+<div class="container-fluid">
+    <div class="row" id="heading-row">
+        <div class="col-3"></div>
+        <div class="col-6">
+            <h2>Register:</h2><hr>
+            <h6><i>All fields with "*" are required!</i></h6>
+        </div>
+        <div class="col-3"></div>
+    </div>
+</div>
+
+
+<!--Registration form-->
+<!-- 2 nested objects in form RegisterUserDTO and RegisterUserDetailsDTO-->
+<div class="jumbotron-fluid">
+    <div class="container-fluid" id="secondary-row-forms">
+
+        <form action="#" th:action="@{/register}" th:object="${createUserDto}" method="post">
+
+            <label>* Username:</label>
+            <span class="error" th:errors="*{userName}"></span>
+            <br/>
+            <input type="text" th:field="*{userName}"/>
+            <br/>
+
+            <label>* Password:</label>
+            <span class="error" th:errors="*{password}"></span>
+            <br/>
+            <input type="password" th:field="*{password}"/>
+            <br/>
+
+            <label>* Confirm Password:</label>
+            <span class="error" th:errors="*{confirmationPassword}"></span>
+            <br/>
+            <input type="password" th:field="*{confirmationPassword}"/>
+            <br/>
+
+            <label>* First Name:</label>
+
+            <span class="error" th:errors="*{firstName}"></span>
+            <br/>
+            <input type="text" th:field="*{firstName}"/>
+            <br/>
+
+            <label>* Last Name:</label>
+
+            <span class="error" th:errors="*{lastName}"></span>
+            <br/>
+            <input type="text" th:field="*{lastName}"/>
+            <br/>
+
+            <label>* E-mail:</label>
+            <br/>
+            <span class="error" th:errors="*{email}"></span>
+
+            <input type="email" th:field="*{email}"/>
+            <br/>
+
+            <label>* Birth Date:</label>
+
+            <span class="error" th:errors="*{birthDate}"></span>
+            <br/>
+            <input type="text" th:field="*{birthDate}"/>
+            <br/>
+
+            <br/>
+
+            <input type="submit" class="btn-success btn-lg" value="Register"/>
+        </form>
+
+    </div>
+</div>
+
+<div class="container-fluid">
+    <div class="row" id="link-row-forms">
+        <h3>
+            <a th:href="@{/login}">Go to Login Page!</a>
+        </h3>
+
+    </div>
+</div>
+
+
+<!--Contact Form-->
+<div th:insert="fragments/general.html :: contact-form"> </div>
+
+<!--Footer-->
+<footer th:insert="fragments/general.html :: footer"> </footer>
+
+</body>
+</html>

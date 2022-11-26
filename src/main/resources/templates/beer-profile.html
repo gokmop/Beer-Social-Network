@@ -1,0 +1,162 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org" xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
+<head>
+    <meta charset="UTF-8">
+    <title>Search Results - BeerTag!</title>
+    <link rel="icon" type="image/x-icon" th:href="@{/assets/img/favicon.ico}" href="../static/assets/img/favicon.ico"/>
+    <!-- Font Awesome icons (free version)-->
+    <script th:src="@{https://use.fontawesome.com/releases/v5.13.0/js/all.js}"
+            src="https://use.fontawesome.com/releases/v5.13.0/js/all.js" crossorigin="anonymous"></script>
+    <!-- Google fonts-->
+    <link th:href="@{https://fonts.googleapis.com/css?family=Montserrat:400,700}"
+          href="https://fonts.googleapis.com/css?family=Montserrat:400,700" rel="stylesheet" type="text/css"/>
+    <link th:href="@{https://fonts.googleapis.com/css?family=Droid+Serif:400,700,400italic,700italic}"
+          href="https://fonts.googleapis.com/css?family=Droid+Serif:400,700,400italic,700italic" rel="stylesheet"
+          type="text/css"/>
+    <link th:href="@{https://fonts.googleapis.com/css?family=Roboto+Slab:400,100,300,700}"
+          href="https://fonts.googleapis.com/css?family=Roboto+Slab:400,100,300,700" rel="stylesheet" type="text/css"/>
+    <!-- Core theme CSS (includes Bootstrap)-->
+    <link th:href="@{/css/styles.css}" href="../static/css/styles.css" rel="stylesheet"/>
+    <link th:href="@{https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css}"
+          href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css"
+          integrity="sha384-JcKb8q3iqJ61gNV9KGb8thSsNjpSL0n8PARn9HuZOnIxN0hoP+VmmDGMN5t9UJ0Z" rel="stylesheet"
+          crossorigin="anonymous">
+
+</head>
+<body>
+<div class="container-fluid">
+    <div th:insert="fragments/general.html :: top-menu"></div>
+</div>
+
+<div class="container-fluid">
+    <div class="row" id="heading-row">
+        <div class="col-3"></div>
+        <div class="col-6"><h2>Beer Profile Page:</h2>
+            <hr>
+        </div>
+        <div class="col-3"></div>
+    </div>
+</div>
+
+
+<!--Beer Cards Profile-->
+<div class="container-fluid">
+    <div class="row justify-content-center">
+
+        <div th:object="${beer}">
+            <div class="col-auto">
+                <div class="beer-card" style="width: 30rem;">
+                    <img src="https://produits.bienmanger.com/36725-0w470h470_Royal_Dutch_Post_Horn_German_Blonde_Beer.jpg"
+                         class="card-img-top" alt="...">
+                    <div class="card-body">
+                        <h4 class="card-title" th:text="'Beer Name: ' + ${beer.getName()}" th:label="Name">Royal
+                            Dutch</h4>
+
+
+                    </div>
+                    <ul class="list-group list-group-flush">
+                        <li class="list-group-item">
+                            <form th:action="@{/beers/profile/rate/__${beer.id}__}" th:object="${rateDto}" method="post">
+
+                                <select th:field="*{rating}" class="custom-select" id="rate-select">
+                                    <option selected value="0"></option>
+                                    <option value="1">1</option>
+                                    <option value="2">2</option>
+                                    <option value="3">3</option>
+                                    <option value="4">4</option>
+                                    <option value="5">5</option>
+                                </select>
+                                <div class="row">
+                                    <div class="col-6">
+                                        <br>
+                                        <button type="submit"
+                                                class="btn btn-info">Rate!
+                                        </button>
+                                    </div>
+                                </div>
+                            </form>
+                        </li>
+                        <li class="list-group-item" th:text="'Beer Id: ' + ${beer.getId()}">ID: 5</li>
+
+                        <li class="list-group-item" th:text="'Rating: ' + ${beer.getRating()} + ' Stars'">Rating: 5.5
+                        </li>
+
+                        <li class="list-group-item" th:text="'Rated by: ' + ${beer.getTimesRated()} + ' user(s)'">
+                            Rating: 5.5
+                        </li>
+
+                        <li class="list-group-item" th:text="'Description: ' + ${beer.getDescription()}"> This beer from
+                            the Netherlands reveals a remarkably balanced profile between sweet aromas and a slight
+                            bitterness
+                        </li>
+
+                        <li class="list-group-item" th:text="'Style: ' + ${beer.getStyleName()}">Style: IPA</li>
+                        <li class="list-group-item" th:text="'ABV: ' + ${beer.getAbv()} + '%'">ABV: 4,7%</li>
+                        <li class="list-group-item" th:text="'Author: ' + ${beer.getAuthorUsername()}">Author:</li>
+                        <li class="list-group-item" th:text="'Brewery: ' + ${beer.getBreweryName()}">Brewery: United
+                            Dutch Breweries
+                        </li>
+                        <li class="list-group-item" th:text="'Brewery email: ' + ${beer.getBreweryEmail()}">Brewery:
+                            United Dutch Breweries
+                        </li>
+                        <li class="list-group-item" th:text="'Brewery address: ' + ${beer.getBreweryAddress()}">Brewery:
+                            United Dutch Breweries
+                        </li>
+                        <li class="list-group-item" th:text="'Country: ' + ${beer.getCountryName()}">Country:
+                            Netherlands
+                        </li>
+                        <li class="list-group-item" th:text="'Tags: ' + ${beer.getTagsAsString()}">Tags: tag1, tag2</li>
+                    </ul>
+                    <div class="card-body">
+                        <div class="row">
+                            <p sec:authorize="hasRole('ROLE_USER')">
+                                <a class="btn btn-warning" th:href="@{/list/profile/wishlist/add/__${beer.id}__}"
+                                   href=" #"
+                                   role="button">Add to Wishlist</a>
+                            </p>
+                            <hr>
+                            <p sec:authorize="hasRole('ROLE_USER')">
+                                <a class="btn btn-success" th:href="@{/list/profile/dranklist/add/__${beer.id}__}"
+                                   href=" #"
+                                   role="button">Add to DrankList</a>
+                            </p>
+                            <hr>
+                            <p sec:authorize="hasRole('ROLE_USER')">
+                                <a class="btn btn-info" th:href="@{/beers/update/__${beer.id}__}"
+                                   href="#" role="button">Edit</a>
+                            </p>
+                            <hr>
+                            <p sec:authorize="hasRole('ROLE_ADMIN')">
+                                <a class="btn btn-danger" th:href="@{/beers/delete/__${beer.id}__}"
+                                   href="#" role="button">Delete</a>
+                            </p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+    </div>
+</div>
+
+<div th:insert="fragments/general.html :: contact-form"></div>
+
+
+<footer th:insert="fragments/general.html :: footer"></footer>
+<!-- Bootstrap core JS-->
+<script th:href="@{https://cdnjs.cloudflare.com/ajax/libs/jquery/3.5.1/jquery.min.js}"
+        src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+<script th:href="@{https://stackpath.bootstrapcdn.com/bootstrap/4.5.0/js/bootstrap.bundle.min.js}"
+        src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.0/js/bootstrap.bundle.min.js"></script>
+<!-- Third party plugin JS-->
+<script th:href="@{https://cdnjs.cloudflare.com/ajax/libs/jquery-easing/1.4.1/jquery.easing.min.js}"
+        src="https://cdnjs.cloudflare.com/ajax/libs/jquery-easing/1.4.1/jquery.easing.min.js"></script>
+<!-- Contact form JS-->
+<!-- <script th:href="@{../static/assets/mail/jqBootstrapValidation.js}"
+        src="../static/assets/mail/jqBootstrapValidation.js"></script> -->
+<!-- <script th:href="@{../static/assets/mail/contact_me.js}" src="../static/assets/mail/contact_me.js"></script> -->
+<!-- Core theme JS-->
+<!-- <script th:href="@{../static/js/scripts.js}" src="../static/js/scripts.js"></script> -->
+
+</body>
+</html>

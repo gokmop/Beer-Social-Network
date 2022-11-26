@@ -1,0 +1,52 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<link rel="icon" type="image/x-icon" th:href="@{/assets/img/favicon.ico}" href="../static/assets/img/favicon.ico" />
+    <!-- Font Awesome icons (free version)-->
+    <script th:src="@{https://use.fontawesome.com/releases/v5.13.0/js/all.js}" src="https://use.fontawesome.com/releases/v5.13.0/js/all.js" crossorigin="anonymous"></script>
+    <!-- Google fonts-->
+    <link th:href="@{https://fonts.googleapis.com/css?family=Montserrat:400,700}" href="https://fonts.googleapis.com/css?family=Montserrat:400,700" rel="stylesheet" type="text/css" />
+    <link th:href="@{https://fonts.googleapis.com/css?family=Droid+Serif:400,700,400italic,700italic}" href="https://fonts.googleapis.com/css?family=Droid+Serif:400,700,400italic,700italic" rel="stylesheet" type="text/css" />
+    <link th:href="@{https://fonts.googleapis.com/css?family=Roboto+Slab:400,100,300,700}" href="https://fonts.googleapis.com/css?family=Roboto+Slab:400,100,300,700" rel="stylesheet" type="text/css" />
+    <!-- Core theme CSS (includes Bootstrap)-->
+    <link th:href="@{/css/styles.css}" href="../static/css/styles.css" rel="stylesheet" />
+    <link th:href="@{https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css}"   href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" integrity="sha384-JcKb8q3iqJ61gNV9KGb8thSsNjpSL0n8PARn9HuZOnIxN0hoP+VmmDGMN5t9UJ0Z" rel="stylesheet" crossorigin="anonymous">
+
+<head>
+    <meta charset="UTF-8">
+    <title>BeerTag Registration Confirmation</title>
+</head>
+<body>
+    <div class="container-fluid">
+        <div th:insert="fragments/general.html :: top-menu"> </div>
+    </div>
+    
+    <div class="container-fluid">
+        <div class="row" id="heading-row">
+            <div class="col-3"></div>
+            <div class="col-6"><h2>You have successfully registered in BeerTag!</h2><hr>
+                <h3>
+                    <a th:href="@{/login}">-> Go to Login</a>
+                </h3>
+            </div>
+            <div class="col-3"></div>
+        </div>
+    </div>
+
+    <div th:insert="fragments/general.html :: contact-form"> </div>>
+
+    <footer th:insert="fragments/general.html :: footer"> </footer>
+    
+    <!-- Bootstrap core JS-->
+    <script th:href="@{https://cdnjs.cloudflare.com/ajax/libs/jquery/3.5.1/jquery.min.js}" src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+    <script th:href="@{https://stackpath.bootstrapcdn.com/bootstrap/4.5.0/js/bootstrap.bundle.min.js}" src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.0/js/bootstrap.bundle.min.js"></script>
+    <!-- Third party plugin JS-->
+    <script th:href="@{https://cdnjs.cloudflare.com/ajax/libs/jquery-easing/1.4.1/jquery.easing.min.js}" src="https://cdnjs.cloudflare.com/ajax/libs/jquery-easing/1.4.1/jquery.easing.min.js"></script>
+    <!-- Contact form JS-->
+    <!-- <script th:href="@{../static/assets/mail/jqBootstrapValidation.js}"
+            src="../static/assets/mail/jqBootstrapValidation.js"></script> -->
+    <!-- <script th:href="@{../static/assets/mail/contact_me.js}" src="../static/assets/mail/contact_me.js"></script> -->
+    <!-- Core theme JS-->
+    <!-- <script th:href="@{../static/js/scripts.js}" src="../static/js/scripts.js"></script> -->
+
+    </body>
+</html>

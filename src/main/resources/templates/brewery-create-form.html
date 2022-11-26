@@ -1,0 +1,136 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Search Results - BeerTag!</title>
+    <link href="../static/assets/img/favicon.ico" rel="icon" th:href="@{/assets/img/favicon.ico}" type="image/x-icon"/>
+    <!-- Font Awesome icons (free version)-->
+    <script crossorigin="anonymous"
+            src="https://use.fontawesome.com/releases/v5.13.0/js/all.js"
+            th:src="@{https://use.fontawesome.com/releases/v5.13.0/js/all.js}"></script>
+    <!-- Google fonts-->
+    <link href="https://fonts.googleapis.com/css?family=Montserrat:400,700"
+          rel="stylesheet" th:href="@{https://fonts.googleapis.com/css?family=Montserrat:400,700}" type="text/css"/>
+    <link href="https://fonts.googleapis.com/css?family=Droid+Serif:400,700,400italic,700italic"
+          rel="stylesheet" th:href="@{https://fonts.googleapis.com/css?family=Droid+Serif:400,700,400italic,700italic}"
+          type="text/css"/>
+    <link href="https://fonts.googleapis.com/css?family=Roboto+Slab:400,100,300,700"
+          rel="stylesheet" th:href="@{https://fonts.googleapis.com/css?family=Roboto+Slab:400,100,300,700}"
+          type="text/css"/>
+    <!-- Core theme CSS (includes Bootstrap)-->
+    <link href="../static/css/styles.css" rel="stylesheet" th:href="@{/css/styles.css}"/>
+    <link crossorigin="anonymous"
+          href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css"
+          integrity="sha384-JcKb8q3iqJ61gNV9KGb8thSsNjpSL0n8PARn9HuZOnIxN0hoP+VmmDGMN5t9UJ0Z" rel="stylesheet"
+          th:href="@{https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css}">
+
+</head>
+<body>
+
+<!--Top Menu -->
+<div class="container-fluid">
+    <div th:insert="fragments/general.html :: top-menu"></div>
+</div>
+<!--Welcome Row -->
+<div class="container-fluid">
+    <div class="row" id="heading-row">
+        <div class="col-3"></div>
+        <div class="col-6"><h2>All Beers in Our Database:</h2>
+            <hr>
+        </div>
+        <div class="col-3"></div>
+    </div>
+</div>
+
+
+<div class="container-fluid">
+    <div class="row" id="secondary-row-forms">
+        <div class="col-3"></div>
+        <div class="col-6">
+            <form action="#" method="post"
+                  th:action="@{/brewery/__${id != null ? 'update/' + id : 'create-brewery'}__}"
+                  th:object="${createBreweryDto}">
+                <!--Name-->
+                <div class="form-group">
+                    <div class="input-group-prepend">
+                        <label th:text="#{brewery.header.name}">Brewery</label>
+                    </div>
+                    <label class="error" th:errors="*{name}"></label>
+                    <input class="form-control" placeholder="Brewery Name" th:field="*{name}" type="text"/>
+                </div>
+                <!--Email-->
+                <div class="form-group">
+                    <div class="input-group-prepend">
+                        <label th:text="#{brewery.header.email}">e-mail</label>
+                    </div>
+                    <label class="error" th:errors="*{email}"></label>
+                    <input class="form-control" placeholder="Brewery e-mail" th:field="*{email}" type="text"/>
+                </div>
+                <!--Description-->
+                <div class="input-group-group">
+                    <div class="input-group-prepend">
+                        <label th:text="#{brewery.header.description}">Description!</label>
+                    </div>
+                    <label class="error" th:errors="*{description}"></label>
+                    <textarea aria-label="with textArea" class="form-control" placeholder="Your text goes here"
+                              th:field="*{description}" type="text">
+                    </textarea>
+                </div>
+                <br/>
+                <!--Country-->
+                <div class="form-group">
+                    <div class="input-group-prepend">
+                        <label for="countryId">Select Country</label>
+                    </div>
+
+                    <select class="form-control select-picker" id="countryId" th:field="*{countryId}">
+
+                        <option th:each="country : ${countries}"
+                                th:text="${country.name}"
+                                th:value="${country.id}">BeerStyleOne
+                        </option>
+
+                    </select>
+                </div>
+                <br/>
+                <div class="form-group">
+                    <div class="input-group-prepend">
+                        <label th:text="#{brewery.header.address}">address</label>
+                    </div>
+                    <label class="error" th:errors="*{address}"></label>
+                    <input class="form-control" placeholder="Brewery e-mail" th:field="*{address}" type="text"/>
+                </div>
+                <br/>
+                <!--Submit-->
+                <br/>
+                <div class="form-group">
+                    <div class="input-group-prepend">
+                        <input class="btn-success" id="save-button" type="submit" value="Save"/>
+                    </div>
+                </div>
+            </form>
+        </div>
+        <div class="col-3"></div>
+    </div>
+</div>
+<!--Contact Form -->
+<div th:insert="fragments/general.html :: contact-form"></div>
+
+<!--Footer-->
+<footer th:insert="fragments/general.html :: footer"></footer>
+<!-- Bootstrap core JS-->
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.5.1/jquery.min.js"
+        th:href="@{https://cdnjs.cloudflare.com/ajax/libs/jquery/3.5.1/jquery.min.js}"></script>
+<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.0/js/bootstrap.bundle.min.js"
+        th:href="@{https://stackpath.bootstrapcdn.com/bootstrap/4.5.0/js/bootstrap.bundle.min.js}"></script>
+<!-- Third party plugin JS-->
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery-easing/1.4.1/jquery.easing.min.js"
+        th:href="@{https://cdnjs.cloudflare.com/ajax/libs/jquery-easing/1.4.1/jquery.easing.min.js}"></script>
+<!-- Contact form JS-->
+<!-- <script th:href="@{../static/assets/mail/jqBootstrapValidation.js}"
+        src="../static/assets/mail/jqBootstrapValidation.js"></script> -->
+<!-- <script th:href="@{../static/assets/mail/contact_me.js}" src="../static/assets/mail/contact_me.js"></script> -->
+<!-- Core theme JS-->
+<!-- <script th:href="@{../static/js/scripts.js}" src="../static/js/scripts.js"></script> -->
+</body>
+</html>

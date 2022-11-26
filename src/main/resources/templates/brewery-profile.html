@@ -1,0 +1,117 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org" xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
+<head>
+    <meta charset="UTF-8">
+    <title>Search Results - BeerTag!</title>
+    <link rel="icon" type="image/x-icon" th:href="@{/assets/img/favicon.ico}" href="../static/assets/img/favicon.ico"/>
+    <!-- Font Awesome icons (free version)-->
+    <script th:src="@{https://use.fontawesome.com/releases/v5.13.0/js/all.js}"
+            src="https://use.fontawesome.com/releases/v5.13.0/js/all.js" crossorigin="anonymous"></script>
+    <!-- Google fonts-->
+    <link th:href="@{https://fonts.googleapis.com/css?family=Montserrat:400,700}"
+          href="https://fonts.googleapis.com/css?family=Montserrat:400,700" rel="stylesheet" type="text/css"/>
+    <link th:href="@{https://fonts.googleapis.com/css?family=Droid+Serif:400,700,400italic,700italic}"
+          href="https://fonts.googleapis.com/css?family=Droid+Serif:400,700,400italic,700italic" rel="stylesheet"
+          type="text/css"/>
+    <link th:href="@{https://fonts.googleapis.com/css?family=Roboto+Slab:400,100,300,700}"
+          href="https://fonts.googleapis.com/css?family=Roboto+Slab:400,100,300,700" rel="stylesheet" type="text/css"/>
+    <!-- Core theme CSS (includes Bootstrap)-->
+    <link th:href="@{/css/styles.css}" href="../static/css/styles.css" rel="stylesheet"/>
+    <link th:href="@{https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css}"
+          href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css"
+          integrity="sha384-JcKb8q3iqJ61gNV9KGb8thSsNjpSL0n8PARn9HuZOnIxN0hoP+VmmDGMN5t9UJ0Z" rel="stylesheet"
+          crossorigin="anonymous">
+
+</head>
+<body>
+<div class="container-fluid">
+    <div th:insert="fragments/general.html :: top-menu"></div>
+</div>
+
+<div class="container-fluid">
+    <div class="row" id="heading-row">
+        <div class="col-3"></div>
+        <div class="col-6"><h2>Brewery Profile Page:</h2>
+            <hr>
+        </div>
+        <div class="col-3"></div>
+    </div>
+</div>
+
+
+<!--Search Results - Beer Cards -->
+<div class="container-fluid">
+    <div class="row justify-content-center">
+
+        <div th:object="${brewery}">
+            <div class="col-auto">
+                <div class="beer-card" style="width: 30rem;">
+                    <img src="https://bigsee.eu/wp-content/uploads/2020/05/00_kamenitza.jpg"
+                         class="card-img-top" alt="...">
+                    <div class="card-body">
+                        <h5 class="card-title" th:text="${brewery.getName()}">Royal Brewery</h5>
+                    </div>
+                </div>
+                <ul class="list-group list-group-flush">
+
+                    <li class="list-group-item" th:text="'Brewery Id: ' + ${brewery.getId()}">ID: 5</li>
+
+                    <li class="list-group-item" th:text="'Rating: ' + ${brewery.getAvgBeerRating()} + ' Stars'">Rating:
+                        5.5
+                    </li>
+
+                    <li class="list-group-item"
+                        th:text="'Types of Beers made: ' + ${brewery.getBeersMade()} + ' beers'">Beers: Made
+                    </li>
+
+                    <li class="list-group-item" th:text="'Description: ' + ${brewery.getDescription()}"> This brewery
+                        ..
+                    </li>
+
+                    <li class="list-group-item" th:text="'Email: ' + ${brewery.getEmail()}">Email: mail@abv.</li>
+
+                    <li class="list-group-item" th:text="'Address: ' + ${brewery.getAddress()}">Address</li>
+                    <li class="list-group-item" th:text="'Country: ' + ${brewery.getCountry()}">Country:</li>
+
+                </ul>
+                <div class="card-body">
+                    <div class="row">
+                        <p sec:authorize="hasRole('ROLE_ADMIN')">
+                            <a class="btn btn-info" th:href="@{/brewery/update/__${brewery.id}__}"
+                               href="#" role="button">Edit</a>
+                        </p>
+                        <hr>
+<!--                        <p sec:authorize="hasRole('ROLE_ADMIN')">-->
+<!--                            <a class="btn btn-danger" th:href="@{/brewery/delete/__${brewery.id}__}"-->
+<!--                               href="#" role="button">Delete</a>-->
+<!--                        </p>-->
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+</div>
+</div>
+
+<div th:insert="fragments/general.html :: contact-form"></div>
+
+
+<footer th:insert="fragments/general.html :: footer"></footer>
+<!-- Bootstrap core JS-->
+<script th:href="@{https://cdnjs.cloudflare.com/ajax/libs/jquery/3.5.1/jquery.min.js}"
+        src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+<script th:href="@{https://stackpath.bootstrapcdn.com/bootstrap/4.5.0/js/bootstrap.bundle.min.js}"
+        src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.0/js/bootstrap.bundle.min.js"></script>
+<!-- Third party plugin JS-->
+<script th:href="@{https://cdnjs.cloudflare.com/ajax/libs/jquery-easing/1.4.1/jquery.easing.min.js}"
+        src="https://cdnjs.cloudflare.com/ajax/libs/jquery-easing/1.4.1/jquery.easing.min.js"></script>
+<!-- Contact form JS-->
+<!-- <script th:href="@{../static/assets/mail/jqBootstrapValidation.js}"
+        src="../static/assets/mail/jqBootstrapValidation.js"></script> -->
+<!-- <script th:href="@{../static/assets/mail/contact_me.js}" src="../static/assets/mail/contact_me.js"></script> -->
+<!-- Core theme JS-->
+<!-- <script th:href="@{../static/js/scripts.js}" src="../static/js/scripts.js"></script> -->
+
+</body>
+</html>

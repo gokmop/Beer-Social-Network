@@ -1,0 +1,413 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org" xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
+<head>
+    <meta charset="utf-8"/>
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no"/>
+    <meta name="description" content=""/>
+    <meta name="author" content=""/>
+    <title>Welcome to BeerTag!</title>
+    <link rel="icon" type="image/x-icon" th:href="@{../static/assets/img/favicon.ico}"
+          href="../static/assets/img/favicon.ico"/>
+    <!-- Font Awesome icons (free version)-->
+    <script th:src="@{https://use.fontawesome.com/releases/v5.13.0/js/all.js}"
+            src="https://use.fontawesome.com/releases/v5.13.0/js/all.js" crossorigin="anonymous"></script>
+    <!-- Google fonts-->
+    <link th:href="@{https://fonts.googleapis.com/css?family=Montserrat:400,700}"
+          href="https://fonts.googleapis.com/css?family=Montserrat:400,700" rel="stylesheet" type="text/css"/>
+    <link th:href="@{https://fonts.googleapis.com/css?family=Droid+Serif:400,700,400italic,700italic}"
+          href="https://fonts.googleapis.com/css?family=Droid+Serif:400,700,400italic,700italic" rel="stylesheet"
+          type="text/css"/>
+    <link th:href="@{https://fonts.googleapis.com/css?family=Roboto+Slab:400,100,300,700}"
+          href="https://fonts.googleapis.com/css?family=Roboto+Slab:400,100,300,700" rel="stylesheet" type="text/css"/>
+    <!-- Core theme CSS (includes Bootstrap)-->
+    <link th:href="@{/css/styles.css}" href="../static/css/styles.css" rel="stylesheet"/>
+    <link th:href="@{https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css}"
+          href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css"
+          integrity="sha384-JcKb8q3iqJ61gNV9KGb8thSsNjpSL0n8PARn9HuZOnIxN0hoP+VmmDGMN5t9UJ0Z" rel="stylesheet"
+          crossorigin="anonymous">
+
+</head>
+<body id="page-top">
+<!-- Navigation-->
+<div class="container-fluid">
+    <div th:insert="fragments/general.html :: top-menu"></div>
+</div>
+
+<!-- Masthead-->
+<header class="masthead">
+    <div class="container">
+        <div class="masthead-subheading">Welcome To BeerTag!</div>
+        <div class="masthead-heading text-uppercase">Cheers!</div>
+        <a class="btn btn-warning btn-xl text-uppercase js-scroll-trigger" href="http://localhost:9090/beers">Search For
+            Beers!</a>
+    </div>
+</header>
+
+<!--Top Beers Results-->
+
+<div class="container-fluid mt-5">
+    <div class="row justify-content-center" id="top-beers">
+        <br>
+        <h3>Top 5 Beers:</h3>
+        <br>
+    </div>
+    <hr>
+    <div class="row justify-content-center">
+
+        <div th:each="beer : ${beers}">
+            <div class="col-auto">
+                <div class="beer-card" style="width: 18rem;">
+                    <img src="https://produits.bienmanger.com/36725-0w470h470_Royal_Dutch_Post_Horn_German_Blonde_Beer.jpg"
+                         class="card-img-top" alt="...">
+                    <div class="card-body">
+                        <!--                        <h5 class="card-title" th:text="${beer.getName()}">Royal Dutch</h5>-->
+                        <div class="row">
+                            <h4><a th:href="@{/beers/profile/__${beer.id}__}" th:text="${beer.name}"
+                                   href="/beers/1">Royal Dutch</a></h4>
+                        </div>
+
+
+                    </div>
+                    <ul class="list-group list-group-flush">
+                        <li class="list-group-item" th:text="'Rating: '+ ${beer.getRating()} + ' Stars'">Rating: 5.5
+                        </li>
+                        <form th:action="@{/beers/rate/__${beer.id}__}" th:object="${rateDto}" method="post">
+
+                            <select th:field="*{rating}" class="custom-select" id="rate-select">
+                                <option selected value="0"></option>
+                                <option value="1">1</option>
+                                <option value="2">2</option>
+                                <option value="3">3</option>
+                                <option value="4">4</option>
+                                <option value="5">5</option>
+                            </select>
+                            <div class="row">
+                                <div class="col-auto">
+                                    <button type="submit"
+                                            class="btn btn-info">Rate this Beer!
+                                    </button>
+                                </div>
+                            </div>
+                        </form>
+                        <li class="list-group-item" th:text="'Rated by: ' + ${beer.getTimesRated()} + ' user(s)'">
+                            Rating: 5.5
+                        </li>
+                        <li class="list-group-item" th:text="'Style: ' + ${beer.getStyleName()}">Style: IPA</li>
+                        <li class="list-group-item" th:text="'ABV: ' + ${beer.getAbv()} + '%'">ABV: 4,7%</li>
+                        <li class="list-group-item" th:text="'Brewery: ' + ${beer.getBreweryName()}">Brewery: United
+                            Dutch Breweries
+                        </li>
+                        <li class="list-group-item" th:text="'Country: ' + ${beer.getCountryName()}">Country:
+                            Netherlands
+                        </li>
+                    </ul>
+                    <div class="card-body">
+                        <div class="row">
+                            <p sec:authorize="hasRole('ROLE_USER')">
+                                <a class="btn btn-warning" href="#" th:href="@{/list/wishlist/add/__${beer.id}__}"
+                                   th:method="post" role="button">Add to Wishlist</a>
+                            </p>
+                            <hr>
+                            <p sec:authorize="hasRole('ROLE_USER')">
+                                <a class="btn btn-success" href="#" th:href="@{/list/dranklist/add/__${beer.id}__}"
+                                   th:method="post" role="button">Add to DrankList</a>
+                            </p>
+                        </div>
+
+                        <div class="row" style="align-items: center">
+                            <a class="btn btn-success" th:href="@{/beers/profile/__${beer.id}__}" role="button">View
+                                Full
+                                Beer Info Page -> </a>
+                        </div>
+                        <hr>
+                    </div>
+                    <br>
+                    <br>
+                </div>
+            </div>
+        </div>
+
+    </div>
+</div>
+
+<hr>
+
+<!--Top 5 Breweries -->
+<div class="container-fluid mt-4">
+    <div class="row justify-content-center" id="top-brewery">
+        <br>
+        <h3>Top 5 Breweries:</h3>
+        <br>
+    </div>
+    <hr>
+    <div class="row justify-content-center">
+
+        <div th:each="brewery : ${breweries}">
+            <div class="col-auto mb-3">
+                <div class="brewery-card" style="width: 18rem;">
+                    <img src="https://www.hopculture.com/wp-content/uploads/2018/01/Funk-Factory-LEAD.jpg"
+                         class="card-img-top" alt="...">
+                    <div class="card-body">
+                        <div class="row">
+                            <h4>
+
+                                <a th:href="@{/brewery/profile/__${brewery.id}__}"
+                                   th:text="${brewery.getName()}" th:label="Name">
+                                </a>
+                            </h4>
+                        </div>
+                        <ul class="list-group list-group-flush">
+                            <li class="list-group-item" th:text="'Id: '+ ${brewery.getId()}">ID</li>
+                            <li class="list-group-item" th:text="'Avg Beer Rating: '+ ${brewery.getAvgBeerRating()}">Avg
+                                Beer Rating
+                            </li>
+                            <li class="list-group-item" th:text="'E-mail: ' + ${brewery.getEmail()}">Email</li>
+                            <li class="list-group-item" th:text="'Address: ' + ${brewery.getAddress()}">Address</li>
+                            <li class="list-group-item" th:text="'Description: ' + ${brewery.getDescription()}">
+                                Description:
+                            </li>
+                            <li class="list-group-item" th:text="'Country: ' + ${brewery.getCountry()}">Country:
+                                Netherlands
+                            </li>
+                            <li class="list-group-item">
+                                <p sec:authorize="hasRole('ROLE_ADMIN')">
+                                    <a class="btn btn-success" href="#"
+                                       th:href="@{/brewery/update/__${brewery.id}__}"
+                                       role="button">Edit</a>
+                                </p>
+                            </li>
+                        </ul>
+                        <hr>
+                    </div>
+                </div>
+            </div>
+
+        </div>
+    </div>
+</div>
+
+
+<hr>
+<!-- Services-->
+<section class="page-section" id="services">
+    <div class="container">
+        <div class="text-center">
+            <h2 class="section-heading text-uppercase">Discover new Beers:</h2>
+            <h3 class="section-subheading text-muted">Search for beers based on your criteria</h3>
+        </div>
+        <div class="row text-center">
+            <div class="col-md-4">
+                        <span class="fa-stack fa-4x">
+                            <i class="fas fa-circle fa-stack-2x text-warning"></i>
+                            <i class="fas fa-beer fa-stack-1x fa-inverse"></i>
+                                                       
+                        </span>
+                <h4 class="my-3">Beers</h4>
+                <p class="text-muted">You enjoy Beer? So do we :) Discover new beers in our Website, add them to your
+                    WishList or DrunkList</p>
+                <a class="btn btn-warning btn-lg text-uppercase js-scroll-trigger" href="http://localhost:9090/beers">Search
+                    For Beers!</a>
+            </div>
+            <div class="col-md-4">
+                        <span class="fa-stack fa-4x">
+                            <i class="fas fa-circle fa-stack-2x text-warning"></i>
+                            <i class="fas fa-industry fa-stack-1x fa-inverse"></i>
+                        </span>
+                <h4 class="my-3">Brewery</h4>
+                <p class="text-muted">Search and read more about all the breweries we have in our database. Discover
+                    local and craft breweries nearby! </p>
+                <a class="btn btn-warning btn-lg text-uppercase js-scroll-trigger" href="http://localhost:9090/brewery">See
+                    All Breweries!</a>
+            </div>
+            <div class="col-md-4">
+                        <span class="fa-stack fa-4x">
+                            <i class="fas fa-circle fa-stack-2x text-warning"></i>
+                            <i class="fas fa-globe fa-stack-1x fa-inverse"></i>
+                        </span>
+                <h4 class="my-3">Register</h4>
+                <p class="text-muted">Discover new Beers, rate beers, Manage your WishList and DrankList and much more!
+                    Register in our website today!</p>
+                <a class="btn btn-warning btn-lg text-uppercase js-scroll-trigger"
+                   href="http://localhost:9090/register">User Registration</a>
+            </div>
+        </div>
+    </div>
+</section>
+<hr>
+
+<!-- Beer Creation Info Block-->
+<section class="page-section" id="about">
+    <div class="container">
+        <div class="text-center">
+            <h2 class="section-heading text-uppercase">How the Beer is Made?</h2>
+            <h3 class="section-subheading text-muted">Here we will try to mark the base steps in producing a beer.</h3>
+        </div>
+        <ul class="timeline">
+            <li>
+                <div class="timeline-image"><img class="rounded-circle img-fluid" th:src="@{assets/img/about/1.jpg}"
+                                                 src="../static/assets/img/about/1.jpg" alt=""/></div>
+                <div class="timeline-panel">
+                    <div class="timeline-heading">
+                        <h4>Harvest of Ingredients</h4>
+                        <h4 class="subheading">We start with the basic ingedients</h4>
+                    </div>
+                    <div class="timeline-body"><p class="text-muted">Lorem ipsum dolor sit amet, consectetur adipisicing
+                        elit. Sunt ut voluptatum eius sapiente, totam reiciendis temporibus qui quibusdam, recusandae
+                        sit vero unde, sed, incidunt et ea quo dolore laudantium consectetur!</p></div>
+                </div>
+            </li>
+            <li class="timeline-inverted">
+                <div class="timeline-image"><img class="rounded-circle img-fluid" th:src="@{assets/img/about/2.jpg}"
+                                                 src="../static/assets/img/about/2.jpg" alt=""/></div>
+                <div class="timeline-panel">
+                    <div class="timeline-heading">
+                        <h4>Brewing</h4>
+                        <h4 class="subheading">Cooking the beer</h4>
+                    </div>
+                    <div class="timeline-body"><p class="text-muted">Lorem ipsum dolor sit amet, consectetur adipisicing
+                        elit. Sunt ut voluptatum eius sapiente, totam reiciendis temporibus qui quibusdam, recusandae
+                        sit vero unde, sed, incidunt et ea quo dolore laudantium consectetur!</p></div>
+                </div>
+            </li>
+            <li>
+                <div class="timeline-image"><img class="rounded-circle img-fluid" th:src="@{assets/img/about/3.jpg}"
+                                                 src="../static/assets/img/about/3.jpg" alt=""/></div>
+                <div class="timeline-panel">
+                    <div class="timeline-heading">
+                        <h4>Filtration</h4>
+                        <h4 class="subheading">From muddy to clear.</h4>
+                    </div>
+                    <div class="timeline-body"><p class="text-muted">Lorem ipsum dolor sit amet, consectetur adipisicing
+                        elit. Sunt ut voluptatum eius sapiente, totam reiciendis temporibus qui quibusdam, recusandae
+                        sit vero unde, sed, incidunt et ea quo dolore laudantium consectetur!</p></div>
+                </div>
+            </li>
+            <li class="timeline-inverted">
+                <div class="timeline-image"><img class="rounded-circle img-fluid" th:src="@{assets/img/about/4.jpg}"
+                                                 src="../static/assets/img/about/4.jpg" alt=""/></div>
+                <div class="timeline-panel">
+                    <div class="timeline-heading">
+                        <h4>Bottling</h4>
+                        <h4 class="subheading">Pour the beer in Bottle</h4>
+                    </div>
+                    <div class="timeline-body"><p class="text-muted">Lorem ipsum dolor sit amet, consectetur adipisicing
+                        elit. Sunt ut voluptatum eius sapiente, totam reiciendis temporibus qui quibusdam, recusandae
+                        sit vero unde, sed, incidunt et ea quo dolore laudantium consectetur!</p></div>
+                </div>
+            </li>
+            <li class="timeline-inverted">
+                <div class="timeline-image">
+                    <h4>
+                        Enjoy
+                        <br/>
+                        Your
+                        <br/>
+                        Beer!
+                    </h4>
+                </div>
+            </li>
+        </ul>
+    </div>
+</section>
+<!-- Team-->
+<section class="page-section bg-light" id="team">
+    <div class="container">
+        <div class="text-center">
+            <h2 class="section-heading text-uppercase">Our Amazing Team</h2>
+            <h3 class="section-subheading text-muted">Here are the guys who stay behind BeerTag app</h3>
+        </div>
+        <div class="row">
+            <div class="col-lg-6">
+                <div class="team-member">
+                    <img class="mx-auto rounded-circle" th:src="@{assets/img/team/1.jpg}"
+                         src="../static/assets/img/team/1.jpg" alt=""/>
+                    <h4>Kamen Hristov</h4>
+                    <p class="text-muted">Mastermind of Backend</p>
+                    <a class="btn btn-dark btn-social mx-2" href="#!"><i class="fab fa-twitter"></i></a>
+                    <a class="btn btn-dark btn-social mx-2" href="#!"><i class="fab fa-facebook-f"></i></a>
+                    <a class="btn btn-dark btn-social mx-2" href="#!"><i class="fab fa-linkedin-in"></i></a>
+                </div>
+            </div>
+            <div class="col-lg-6">
+                <div class="team-member">
+                    <img class="mx-auto rounded-circle" th:src="@{assets/img/team/2.jpg}"
+                         src="../static/assets/img/team/2.jpg" alt=""/>
+                    <h4>Georgi Shutov</h4>
+                    <p class="text-muted">Front-end Wizzard</p>
+                    <a class="btn btn-dark btn-social mx-2" href="#!"><i class="fab fa-twitter"></i></a>
+                    <a class="btn btn-dark btn-social mx-2" href="#!"><i class="fab fa-facebook-f"></i></a>
+                    <a class="btn btn-dark btn-social mx-2" href="#!"><i class="fab fa-linkedin-in"></i></a>
+                </div>
+            </div>
+
+        </div>
+        <div class="row">
+            <div class="col-lg-8 mx-auto text-center"><p class="large text-muted">Lorem ipsum dolor sit amet,
+                consectetur adipisicing elit. Aut eaque, laboriosam veritatis, quos non quis ad perspiciatis, totam
+                corporis ea, alias ut unde.</p></div>
+        </div>
+    </div>
+</section>
+
+<!-- Contact-->
+<section class="page-section" id="contact">
+    <div class="container">
+        <div class="text-center">
+            <h2 class="section-heading text-uppercase">Contact Us</h2>
+            <h3 class="section-subheading text-muted">Lorem ipsum dolor sit amet consectetur.</h3>
+        </div>
+        <form id="contactForm" name="sentMessage" novalidate="novalidate">
+            <div class="row align-items-stretch mb-5">
+                <div class="col-md-6">
+                    <div class="form-group">
+                        <input class="form-control" id="name" type="text" placeholder="Your Name *" required="required"
+                               data-validation-required-message="Please enter your name."/>
+                        <p class="help-block text-danger"></p>
+                    </div>
+                    <div class="form-group">
+                        <input class="form-control" id="email" type="email" placeholder="Your Email *"
+                               required="required" data-validation-required-message="Please enter your email address."/>
+                        <p class="help-block text-danger"></p>
+                    </div>
+                    <div class="form-group mb-md-0">
+                        <input class="form-control" id="phone" type="tel" placeholder="Your Phone *" required="required"
+                               data-validation-required-message="Please enter your phone number."/>
+                        <p class="help-block text-danger"></p>
+                    </div>
+                </div>
+                <div class="col-md-6">
+                    <div class="form-group form-group-textarea mb-md-0">
+                        <textarea class="form-control" id="message" placeholder="Your Message *" required="required"
+                                  data-validation-required-message="Please enter a message."></textarea>
+                        <p class="help-block text-danger"></p>
+                    </div>
+                </div>
+            </div>
+            <div class="text-center">
+                <div id="success"></div>
+                <button class="btn btn-primary btn-xl text-uppercase" id="sendMessageButton" type="submit">Send
+                    Message
+                </button>
+            </div>
+        </form>
+    </div>
+</section>
+<!-- Footer-->
+<footer th:insert="fragments/general.html :: footer"></footer>
+
+<!-- Bootstrap core JS-->
+<script th:href="@{https://cdnjs.cloudflare.com/ajax/libs/jquery/3.5.1/jquery.min.js}"
+        src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+<script th:href="@{https://stackpath.bootstrapcdn.com/bootstrap/4.5.0/js/bootstrap.bundle.min.js}"
+        src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.0/js/bootstrap.bundle.min.js"></script>
+<!-- Third party plugin JS-->
+<script th:href="@{https://cdnjs.cloudflare.com/ajax/libs/jquery-easing/1.4.1/jquery.easing.min.js}"
+        src="https://cdnjs.cloudflare.com/ajax/libs/jquery-easing/1.4.1/jquery.easing.min.js"></script>
+<!-- Contact form JS-->
+<!-- <script th:href="@{../static/assets/mail/jqBootstrapValidation.js}"
+        src="../static/assets/mail/jqBootstrapValidation.js"></script> -->
+<!-- <script th:href="@{../static/assets/mail/contact_me.js}" src="../static/assets/mail/contact_me.js"></script> -->
+<!-- Core theme JS-->
+<!-- <script th:href="@{../static/js/scripts.js}" src="../static/js/scripts.js"></script> -->
+</body>
+</html>

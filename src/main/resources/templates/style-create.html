@@ -1,0 +1,164 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Search Results - BeerTag!</title>
+    <link rel="icon" type="image/x-icon" th:href="@{/assets/img/favicon.ico}" href="../static/assets/img/favicon.ico" />
+    <!-- Font Awesome icons (free version)-->
+    <script th:src="@{https://use.fontawesome.com/releases/v5.13.0/js/all.js}" src="https://use.fontawesome.com/releases/v5.13.0/js/all.js" crossorigin="anonymous"></script>
+    <!-- Google fonts-->
+    <link th:href="@{https://fonts.googleapis.com/css?family=Montserrat:400,700}" href="https://fonts.googleapis.com/css?family=Montserrat:400,700" rel="stylesheet" type="text/css" />
+    <link th:href="@{https://fonts.googleapis.com/css?family=Droid+Serif:400,700,400italic,700italic}" href="https://fonts.googleapis.com/css?family=Droid+Serif:400,700,400italic,700italic" rel="stylesheet" type="text/css" />
+    <link th:href="@{https://fonts.googleapis.com/css?family=Roboto+Slab:400,100,300,700}" href="https://fonts.googleapis.com/css?family=Roboto+Slab:400,100,300,700" rel="stylesheet" type="text/css" />
+    <!-- Core theme CSS (includes Bootstrap)-->
+    <link th:href="@{/css/styles.css}" href="../static/css/styles.css" rel="stylesheet" />
+    <link th:href="@{https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css}"   href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" integrity="sha384-JcKb8q3iqJ61gNV9KGb8thSsNjpSL0n8PARn9HuZOnIxN0hoP+VmmDGMN5t9UJ0Z" rel="stylesheet" crossorigin="anonymous">
+
+</head>
+<body>
+<div class="container-fluid">
+    <div th:insert="fragments/general.html :: top-menu"> </div>
+</div>
+
+<div class="container-fluid">
+    <div class="row" id="heading-row">
+        <div class="col-3"></div>
+        <div class="col-6"><h2>All Beers in Our Database:</h2><hr></div>
+        <div class="col-3"></div>
+    </div>
+</div>
+
+<!--Search with All Criteria -->
+<div>
+    <div class="container-fluid">
+        <form th:action="@{/beers}" th:object="${searchBeerDto}" method="post">
+            <div class="row justify-content-center">
+                <!-- Sort Asc or Desc  -->
+                <div class="form-check">
+                    <input th:field="*{desc}" class="form-check-input" type="checkbox" value="desc" id="defaultCheck1">
+                    <label class="form-check-label" for="defaultCheck1">
+                        desc
+                    </label>
+                </div>
+                <!-- Search input -->
+                <div class="input-group mb-2 col-sm-2">
+                    <div class="input-group-prepend">
+                        <span class="input-group-text" id="basic-addon1">Search:</span>
+                    </div>
+                    <input th:field="*{name}" type="text" class="form-control"
+                           placeholder="Enter keyword"
+                           aria-describedby="basic-addon1">
+                </div>
+
+                <!-- Style Select -->
+                <div class="input-group mb-2 col-sm-2">
+                    <div class="input-group-prepend">
+                        <label class="input-group-text" for="style-select">Style</label>
+                    </div>
+                    <select th:field="*{styleName}" class="custom-select" id="style-select">
+                        <option selected value="">Any</option>
+                        <option th:each="style : ${styles}" th:value="${style.name}" th:text="${style.name}">Weiss
+                        </option>
+                    </select>
+                </div>
+                <!-- Brewery Select -->
+                <div class="input-group mb-2 col-sm-2">
+                    <div class="input-group-prepend">
+                        <label class="input-group-text" for="brewery-select">Brewery</label>
+                    </div>
+                    <select th:field="*{breweryName}" class="custom-select" id="brewery-select">
+                        <option selected value="">Any</option>
+                        <option th:each="brewery : ${breweries}" th:value="${brewery.name}" th:text="${brewery.name}">
+                            Weiss
+                        </option>
+                    </select>
+                </div>
+                <!-- Country Select -->
+                <div class="input-group mb-2 col-sm-2">
+                    <div class="input-group-prepend">
+                        <label class="input-group-text" for="country-select">Country</label>
+                    </div>
+                    <select th:field="*{countryName}" class="custom-select" id="country-select">
+                        <option selected value="">Any</option>
+                        <option th:each="country : ${countries}" th:value="${country.name}" th:text="${country.name}">
+                            Weiss
+                    </select>
+                </div>
+
+                <!-- Sort Parameter  -->
+                <div class="input-group mb-2 col-sm-2">
+                    <div class="input-group-prepend">
+                        <label class="input-group-text" for="country-select">Sort By ...</label>
+                    </div>
+                    <select th:field="*{sortParameter}" class="custom-select" id="sortParameter-select">
+                        <option selected value="id">Any</option>
+                        <option value="rating">Rating</option>
+                        <option value="name">Name</option>
+                        <option value="abv">Abv</option>
+
+                    </select>
+                </div>
+
+                <!-- Search button  -->
+                <div class="row">
+                    <div class="col-sm-2">
+                        <button type="submit" class="btn btn-warning">Search!</button>
+                    </div>
+                </div>
+
+            </div>
+        </form>
+    </div>
+</div>
+
+
+<!--Search Results - Beer Cards -->
+<div class="container-fluid mt-4">
+    <div class="row justify-content-center">
+
+        <div th:each="beer : ${beers}">
+            <div class="col-auto mb-3">
+                <div class="beer-card" style="width: 18rem;">
+                    <img src="https://produits.bienmanger.com/36725-0w470h470_Royal_Dutch_Post_Horn_German_Blonde_Beer.jpg" class="card-img-top" alt="...">
+                    <div class="card-body">
+                        <h5 class="card-title" th:text="${beer.getName()}">Royal Dutch</h5>
+                        <li class="card-text" th:text="${beer.getDescription()}"> This beer from the Netherlands reveals a remarkably balanced profile between sweet aromas and a slight bitterness</li>
+                    </div>
+                    <ul class="list-group list-group-flush">
+                        <li class="list-group-item" th:text="'Rating: '+ ${beer.getRating()} + ' Stars'">Rating: 5.5</li>
+                        <li class="list-group-item" th:text="'Rated by: ' + ${beer.getTimesRated()} + ' user(s)'" >Rating: 5.5</li>
+                        <li class="list-group-item" th:text="'Style: ' + ${beer.getStyleName()}">Style: IPA</li>
+                        <li class="list-group-item" th:text="'ABV: ' + ${beer.getAbv()} + '%'">ABV: 4,7%</li>
+                        <li class="list-group-item" th:text="'Brewery: ' + ${beer.getBreweryName()}">Brewery: United Dutch Breweries</li>
+                        <li class="list-group-item" th:text="'Country: ' + ${beer.getCountryName()}">Country: Netherlands</li>
+                    </ul>
+                    <div class="card-body">
+                        <a class="btn btn-warning" href="#" role="button">Add to Wishlist</a>
+                        <hr>
+                        <a class="btn btn-success" href="#" role="button">Add to DrankList</a>
+                        <hr>
+                        <a class="btn btn-info" href="#" role="button">View More</a>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+    </div>
+</div>
+
+<div th:insert="fragments/general.html :: contact-form"> </div>>
+
+<footer th:insert="fragments/general.html :: footer"> </footer>
+<!-- Bootstrap core JS-->
+<script th:href="@{https://cdnjs.cloudflare.com/ajax/libs/jquery/3.5.1/jquery.min.js}" src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+<script th:href="@{https://stackpath.bootstrapcdn.com/bootstrap/4.5.0/js/bootstrap.bundle.min.js}" src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.0/js/bootstrap.bundle.min.js"></script>
+<!-- Third party plugin JS-->
+<script th:href="@{https://cdnjs.cloudflare.com/ajax/libs/jquery-easing/1.4.1/jquery.easing.min.js}" src="https://cdnjs.cloudflare.com/ajax/libs/jquery-easing/1.4.1/jquery.easing.min.js"></script>
+<!-- Contact form JS-->
+<!-- <script th:href="@{../static/assets/mail/jqBootstrapValidation.js}"
+        src="../static/assets/mail/jqBootstrapValidation.js"></script> -->
+<!-- <script th:href="@{../static/assets/mail/contact_me.js}" src="../static/assets/mail/contact_me.js"></script> -->
+<!-- Core theme JS-->
+<!-- <script th:href="@{../static/js/scripts.js}" src="../static/js/scripts.js"></script> -->
+</body>
+</html>

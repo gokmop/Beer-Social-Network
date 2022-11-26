@@ -1,0 +1,140 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Update User data</title>
+    <link rel="icon" type="image/x-icon" th:href="@{../static/assets/img/favicon.ico}"
+          href="../static/assets/img/favicon.ico"/>
+    <!-- Font Awesome icons (free version)-->
+    <script th:src="@{https://use.fontawesome.com/releases/v5.13.0/js/all.js}"
+            src="https://use.fontawesome.com/releases/v5.13.0/js/all.js" crossorigin="anonymous"></script>
+    <!-- Google fonts-->
+    <link th:href="@{https://fonts.googleapis.com/css?family=Montserrat:400,700}"
+          href="https://fonts.googleapis.com/css?family=Montserrat:400,700" rel="stylesheet" type="text/css"/>
+    <link th:href="@{https://fonts.googleapis.com/css?family=Droid+Serif:400,700,400italic,700italic}"
+          href="https://fonts.googleapis.com/css?family=Droid+Serif:400,700,400italic,700italic" rel="stylesheet"
+          type="text/css"/>
+    <link th:href="@{https://fonts.googleapis.com/css?family=Roboto+Slab:400,100,300,700}"
+          href="https://fonts.googleapis.com/css?family=Roboto+Slab:400,100,300,700" rel="stylesheet" type="text/css"/>
+    <!-- Core theme CSS (includes Bootstrap)-->
+    <link th:href="@{/css/styles.css}" href="../static/css/styles.css" rel="stylesheet"/>
+    <link th:href="@{https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css}"
+          href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css"
+          integrity="sha384-JcKb8q3iqJ61gNV9KGb8thSsNjpSL0n8PARn9HuZOnIxN0hoP+VmmDGMN5t9UJ0Z" rel="stylesheet"
+          crossorigin="anonymous">
+
+</head>
+<body>
+<div th:insert="fragments/general.html :: top-menu"></div>
+
+<div class="container-fluid">
+    <div class="row" id="heading-row">
+        <div class="col-3"></div>
+        <div class="col-6"><h2>Update your information!</h2>
+            <hr>
+        </div>
+        <div class="col-3"></div>
+    </div>
+</div>
+
+
+<div class="container-fluid">
+    <div class="row" id="secondary-row-forms">
+        <div class="col-3"></div>
+        <div class="col-6">
+            <form action="#" th:action="@{/users/profile/edit}"
+                  th:object="${updateUserDto}" method="post">
+                <div class="form-group">
+                    <div class="input-group-prepend">
+                        <label>First Name</label>
+                    </div>
+                    <label class="error" th:errors="*{firstName}"></label>
+                    <input type="text" class="form-control" placeholder="First Name" th:field="*{firstName}"/>
+                </div>
+                <div class="form-group">
+                    <div class="input-group-prepend">
+                        <label>Last Name:</label>
+                    </div>
+                    <label class="error" th:errors="*{lastName}"></label>
+                    <input type="text" class="form-control" placeholder="Last Name" th:field="*{lastName}"/>
+                </div>
+
+                <div class="input-group-group">
+                    <div class="input-group-prepend">
+                        <label>E-mail:</label>
+                    </div>
+                    <label class="error" th:errors="*{email}"></label>
+                    <input type="email" class="form-control" placeholder="Your e-mail"
+                           th:field="*{email}" aria-label="with textArea"/>
+
+                </div>
+                <br/>
+                <div class="input-group-group">
+                    <div class="input-group-prepend">
+                        <label>Birth date:</label>
+                    </div>
+                    <label class="error" th:errors="*{birthDate}"></label>
+                    <input type="text" class="form-control" placeholder="Your date of birth"
+                           th:field="*{birthDate}" aria-label="with textArea"/>
+
+                </div>
+                <br/>
+                <div class="input-group-group">
+                    <div class="input-group-prepend">
+                        <label>Password:</label>
+                    </div>
+                    <label class="error" th:errors="*{password}"></label>
+                    <input type="password" class="form-control" placeholder="your password"
+                           th:field="*{password}" aria-label="with textArea"/>
+
+                </div>
+
+                <br/>
+                <div class="input-group-group">
+                    <div class="input-group-prepend">
+                        <label>Confirm password:</label>
+                    </div>
+                    <label class="error" th:errors="*{confirmationPassword}"></label>
+                    <input type="password" class="form-control" placeholder="your password"
+                           th:field="*{confirmationPassword}" aria-label="with textArea"/>
+
+                </div>
+                <!--Submit-->
+                <br/>
+                <div class="form-group">
+                    <div class="input-group-prepend">
+                        <input class="btn-success" id="save-button" type="submit" value="Save"/>
+                    </div>
+
+                </div>
+
+            </form>
+
+        </div>
+        <div class="col-3"></div>
+    </div>
+</div>
+
+<div class="custom-file">
+    <input type="file" class="custom-file-input" id="validatedCustomFile" required>
+    <label class="custom-file-label" for="validatedCustomFile">Choose file...</label>
+    <div class="invalid-feedback">Example invalid custom file feedback</div>
+</div>
+
+
+<!-- Bootstrap core JS-->
+<script th:href="@{https://cdnjs.cloudflare.com/ajax/libs/jquery/3.5.1/jquery.min.js}"
+        src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+<script th:href="@{https://stackpath.bootstrapcdn.com/bootstrap/4.5.0/js/bootstrap.bundle.min.js}"
+        src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.0/js/bootstrap.bundle.min.js"></script>
+<!-- Third party plugin JS-->
+<script th:href="@{https://cdnjs.cloudflare.com/ajax/libs/jquery-easing/1.4.1/jquery.easing.min.js}"
+        src="https://cdnjs.cloudflare.com/ajax/libs/jquery-easing/1.4.1/jquery.easing.min.js"></script>
+<!-- Contact form JS-->
+<!-- <script th:href="@{../static/assets/mail/jqBootstrapValidation.js}"
+        src="../static/assets/mail/jqBootstrapValidation.js"></script> -->
+<!-- <script th:href="@{../static/assets/mail/contact_me.js}" src="../static/assets/mail/contact_me.js"></script> -->
+<!-- Core theme JS-->
+<!-- <script th:href="@{../static/js/scripts.js}" src="../static/js/scripts.js"></script> -->
+</body>
+</html>
